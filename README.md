@@ -6,11 +6,19 @@
 
 **1)** Install 'expect' to be able to use the autoexpect command:
 
-Debian-based OS: **sudo apt-get install -y expect**
+Debian-based OS: 
+```bash
+sudo apt-get install -y expect
+```
+RHEL-based OS: 
+```bash
+sudo yum install -y expect
+```
 
-RHEL-based OS: **sudo yum install -y expect**
-
-Arch-based OS: **sudo pacman install -y expect**
+Arch-based OS: 
+```bash
+sudo pacman install -y expect
+```
 
 **2)** Being logged in as root or super-user
 
@@ -23,17 +31,17 @@ That's it!
 **1)** Install the KStatus.sh file and make it executable.
 
 To install it: 
-
-**wget https://raw.githubusercontent.com/KeepSec-Technologies/KStatus/main/KStatus.sh**
-
+```bash
+wget https://raw.githubusercontent.com/KeepSec-Technologies/KStatus/main/KStatus.sh
+```
 To make it executable:
-
-**sudo chmod +x KStatus.sh**
-
+```bash
+sudo chmod +x KStatus.sh
+```
 **2)** Then run: 
-
-**sudo autoexpect -quiet $PWD/KStatus.sh** 
-
+```bash
+sudo autoexpect -quiet $PWD/KStatus.sh
+```
 ***(Very important to use this exact command)***
 
 **3)** Answer the questions like the image below and you're good to go!
