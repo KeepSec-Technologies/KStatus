@@ -15,11 +15,6 @@ RHEL-based OS:
 sudo yum install -y expect
 ```
 
-Arch-based OS: 
-```bash
-sudo pacman install -y expect
-```
-
 **2)** Being logged in as root or super-user
 
 **3)** An internet domain pointing to your server, I recommend installing an SPF/DMARC record to pass through some email provider when sending your notifications.
