@@ -196,7 +196,7 @@ sudo chmod +x script.exp &> /dev/null
 $Path1=$(echo $PWD)
 
 croncmd="/usr/bin/expect $Path1/script.exp &> /dev/null"
-cronjob="$cron * * * * $croncmd"
+cronjob="*/$cron * * * * $croncmd"
 
 ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
 
