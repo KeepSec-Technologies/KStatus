@@ -136,12 +136,13 @@ while :; do
   read -p "What is the (${YEL}${num}${NC}) service you want notifications for : " statusloop
   echo""
   echo -e "#!/bin/bash
-        subject=${dqt}SERVICE DOWN: $statusloop${dqt}
-        status=${dqt}\$(sudo systemctl show $statusloop --no-page)${dqt}
-        status_text=\$(echo "${status}" | grep 'ActiveState=' | cut -f2 -d=)
-        if [[ ${dqt}\${status_text}${dqt} == ${dqt}100% packet loss${dqt} ]]; then
-        printf ${dqt}The service ${sqt}$statusloop${sqt} is currently down!\n\n Please check it out as soon as possible.${dqt} | mail -r ${dqt}notification${dqt} -s ${dqt}\$subject${dqt} ${dqt}$to${dqt}
-        fi" >$dirConf/KStatus-$statusloop-job.sh
+    HOST=\$(hostname)
+    subject=${dqt}SERVICE DOWN: $statusloop | \$HOST=\$(hostname) ${dqt}
+    status=${dqt}\$(sudo systemctl show $statusloop --no-page)${dqt}
+    status_text=\$(echo "${status}" | grep 'ActiveState=' | cut -f2 -d=)
+    if [[ ${dqt}\${status_text}${dqt} == ${dqt}100% packet loss${dqt} ]]; then
+    printf ${dqt}The service ${sqt}$statusloop${sqt} is currently down for \$HOST=$(hostname)!\n\n Please check it out as soon as possible.${dqt} | mail -r ${dqt}notification${dqt} -s ${dqt}\$subject${dqt} ${dqt}$to${dqt}
+    fi" >$dirConf/KStatus-$statusloop-job.sh
   croncmd="root /usr/bin/bash $dirConf/KStatus-$statusloop-job.sh >> $dirLogs/KStatus-$statusloop.log"
   cronjob="*/$cron * * * * $croncmd"
 
@@ -185,11 +186,11 @@ if [ -n "$(command -v apt-get)" ]; then
 fi
 
 if [ -n "$(command -v apt-get)" ]; then
-    sudo apt-get -y install postfix >/dev/null && sudo apt-get -y install bsd-mailx >/dev/null
+  sudo apt-get -y install postfix >/dev/null && sudo apt-get -y install bsd-mailx >/dev/null
 elif [ -n "$(command -v yum)" ]; then
-    sudo yum install -y postfix >/dev/null && sudo yum install -y mailx >/dev/null
+  sudo yum install -y postfix >/dev/null && sudo yum install -y mailx >/dev/null
 elif [ -n "$(command -v pacman)" ]; then
-    sudo pacman -S postfix >/dev/null && sudo pacman -S mailx >/dev/null
+  sudo pacman -S postfix >/dev/null && sudo pacman -S mailx >/dev/null
 fi
 
 sudo adduser --disabled-password --gecos "" notification &>/dev/null
