@@ -185,11 +185,11 @@ if [ -n "$(command -v apt-get)" ]; then
 fi
 
 if [ -n "$(command -v apt-get)" ]; then
-  sudo apt-get -y install postfix >/dev/null && sudo apt-get -y install bsd-mailx >/dev/null
+    sudo apt-get -y install postfix >/dev/null && sudo apt-get -y install bsd-mailx >/dev/null
 elif [ -n "$(command -v yum)" ]; then
-  sudo yum remove -y postfix &>/dev/null && sudo yum install -y postfix >/dev/null && sudo yum install -y mailx >/dev/null
+    sudo yum install -y postfix >/dev/null && sudo yum install -y mailx >/dev/null
 elif [ -n "$(command -v pacman)" ]; then
-  sudo pacman -S postfix >/dev/null && sudo pacman -S mailx >/dev/null
+    sudo pacman -S postfix >/dev/null && sudo pacman -S mailx >/dev/null
 fi
 
 sudo adduser --disabled-password --gecos "" notification &>/dev/null
