@@ -136,13 +136,13 @@ while :; do
   read -p "What is the (${YEL}${num}${NC}) service you want notifications for : " statusloop
   echo""
   echo -e "#!/bin/bash
-    HOST=\$(hostname)
-    subject=${dqt}SERVICE DOWN: $statusloop | \$HOST=\$(hostname) ${dqt}
-    status=${dqt}\$(sudo systemctl show $statusloop --no-page)${dqt}
-    status_text=\$(echo "${status}" | grep 'ActiveState=' | cut -f2 -d=)
-    if [[ ${dqt}\${status_text}${dqt} == ${dqt}100% packet loss${dqt} ]]; then
-    printf ${dqt}The service ${sqt}$statusloop${sqt} is currently down for \$HOST=$(hostname)!\n\n Please check it out as soon as possible.${dqt} | mail -r ${dqt}notification${dqt} -s ${dqt}\$subject${dqt} ${dqt}$to${dqt}
-    fi" >$dirConf/KStatus-$statusloop-job.sh
+  HOST=\$(hostname)
+  subject=${dqt}SERVICE DOWN: $statusloop | \$HOST ${dqt}
+  status=${dqt}\$(sudo systemctl show $statusloop --no-page)${dqt}
+  status_text=\$(echo "${status}" | grep 'ActiveState=' | cut -f2 -d=)
+  if [[ ${dqt}\${status_text}${dqt} == ${dqt}100% packet loss${dqt} ]]; then
+  printf ${dqt}The service ${sqt}$statusloop${sqt} is currently down for \$HOST!\n\n Please check it out as soon as possible.${dqt} | mail -r ${dqt}notification${dqt} -s ${dqt}\$subject${dqt} ${dqt}$to${dqt}
+  fi" >$dirConf/KStatus-$statusloop-job.sh
   croncmd="root /usr/bin/bash $dirConf/KStatus-$statusloop-job.sh >> $dirLogs/KStatus-$statusloop.log"
   cronjob="*/$cron * * * * $croncmd"
 
