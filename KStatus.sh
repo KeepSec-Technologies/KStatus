@@ -140,7 +140,7 @@ while :; do
   subject=${dqt}SERVICE DOWN: $statusloop | \$HOST ${dqt}
   status=${dqt}\$(sudo systemctl show $statusloop --no-page)${dqt}
   status_text=\$(echo "${status}" | grep 'ActiveState=' | cut -f2 -d=)
-  if [[ ${dqt}\${status_text}${dqt} == ${dqt}100% packet loss${dqt} ]]; then
+  if [[ ${dqt}\${status_text}${dqt} == ${dqt}inactive${dqt} ]]; then
   printf ${dqt}The service ${sqt}$statusloop${sqt} is currently down for \$HOST!\n\n Please check it out as soon as possible.${dqt} | mail -r ${dqt}notification${dqt} -s ${dqt}\$subject${dqt} ${dqt}$to${dqt}
   fi" >$dirConf/KStatus-$statusloop-job.sh
   croncmd="root /usr/bin/bash $dirConf/KStatus-$statusloop-job.sh >> $dirLogs/KStatus-$statusloop.log"
@@ -196,7 +196,6 @@ sudo adduser --disabled-password --gecos "" notification &>/dev/null
 if [ -n "$(command -v yum)" ] && [ -z "$(command -v postfix)" ]; then
   sudo sed -i -e "s/inet_interfaces = localhost/inet_interfaces = all/g" /etc/postfix/main.cf &>/dev/null
   sudo sed -i -e "s/#mydomain =.*/mydomain = $domain/g" /etc/postfix/main.cf &>/dev/null
-  sudo sed -i -e "s/#myorigin = $mydomain/myorigin = $mydomain/g" /etc/postfix/main.cf &>/dev/null
   sudo sed -i -e "s/#mynetworks =.*/mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128/g" /etc/postfix/main.cf &>/dev/null
   sudo sed -i -e "s/mydestination =.*/mydestination = mail."'$mydomain'", "'$mydomain'"/g" /etc/postfix/main.cf &>/dev/null
   sudo sed -i -e "117d" /etc/postfix/main.cf &>/dev/null
