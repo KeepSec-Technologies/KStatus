@@ -187,7 +187,7 @@ if [ -n "$(command -v apt-get)" ] && [ -z "$(command -v postfix)" ]; then
   sudo echo "postfix postfix/relayhost string" | debconf-set-selections
   sudo echo "postfix postfix/chattr boolean false" | debconf-set-selections
   sudo echo "postfix postfix/destinations string $domain" | debconf-set-selections
-else if [ -n "$(command -v yum)" ] && [ -z "$(command -v postfix)" ]; then
+elif [ -n "$(command -v yum)" ] && [ -z "$(command -v postfix)" ]; then
   sudo yum install -y postfix >/dev/null
   sudo sed -i -e "s/inet_interfaces = localhost/inet_interfaces = all/g" /etc/postfix/main.cf &>/dev/null
   sudo sed -i -e "s/#mydomain =.*/mydomain = $domain/g" /etc/postfix/main.cf &>/dev/null
