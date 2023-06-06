@@ -173,7 +173,7 @@ printf "${PRPL}\nInstalling utilities ➜ ${NC}"
 #add notification user
 sudo adduser --disabled-password --gecos "" notification &>/dev/null
 
-#checks package manager and then install all the necessary utilities with your right package manager + puts the right configuration in the config file for postfix for you
+#checks package manager and then install postfix with your right package manager + puts the right configuration in the config file for you if you don't already have postfix installed
 if [ -n "$(command -v apt-get)" ] && [ -z "$(command -v postfix)" ]; then
   sudo apt-get -y install postfix >/dev/null
   sudo echo "postfix postfix/mailname string $domain" | debconf-set-selections
@@ -187,9 +187,7 @@ if [ -n "$(command -v apt-get)" ] && [ -z "$(command -v postfix)" ]; then
   sudo echo "postfix postfix/relayhost string" | debconf-set-selections
   sudo echo "postfix postfix/chattr boolean false" | debconf-set-selections
   sudo echo "postfix postfix/destinations string $domain" | debconf-set-selections
-fi
-
-if [ -n "$(command -v yum)" ] && [ -z "$(command -v postfix)" ]; then
+else if [ -n "$(command -v yum)" ] && [ -z "$(command -v postfix)" ]; then
   sudo yum install -y postfix >/dev/null
   sudo sed -i -e "s/inet_interfaces = localhost/inet_interfaces = all/g" /etc/postfix/main.cf &>/dev/null
   sudo sed -i -e "s/#mydomain =.*/mydomain = $domain/g" /etc/postfix/main.cf &>/dev/null
